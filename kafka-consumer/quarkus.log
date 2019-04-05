@@ -1,0 +1,188 @@
+2019-04-05 14:48:12,182 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29219] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Deployment done... start processing
+2019-04-05 14:48:12,200 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29219] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found source types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 14:48:12,200 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29219] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found sink types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 14:48:12,200 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29219] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Stream manager initializing...
+2019-04-05 14:48:12,216 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29219] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Cancel subscriptions
+2019-04-05 14:51:22,974 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29319] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Deployment done... start processing
+2019-04-05 14:51:23,006 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29319] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found source types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 14:51:23,007 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29319] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found sink types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 14:51:23,007 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29319] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Stream manager initializing...
+2019-04-05 14:51:23,010 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29319] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Cancel subscriptions
+2019-04-05 15:04:09,931 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Deployment done... start processing
+2019-04-05 15:04:09,956 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found source types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 15:04:09,957 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found sink types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 15:04:09,957 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Stream manager initializing...
+2019-04-05 15:04:09,957 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.ConsumerConfig] (main) ConsumerConfig values: 
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = latest
+	bootstrap.servers = [my-cluster-kafka-bootstrap-myproject.127.0.0.1.nip.io:443]
+	check.crcs = true
+	client.id = 
+	connections.max.idle.ms = 540000
+	enable.auto.commit = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = kafka-test-apps
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 305000
+	retry.backoff.ms = 100
+	sasl.jaas.config = [hidden]
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.mechanism = 
+	security.protocol = SSL
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = 
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = /Users/scholzj/development/strimzi-kafka-operator/hacking/user.p12
+	ssl.keystore.password = [hidden]
+	ssl.keystore.type = PKCS12
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = /Users/scholzj/development/strimzi-kafka-operator/hacking/truststore.jks
+	ssl.truststore.password = [hidden]
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2019-04-05 15:04:09,975 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] WARN  [org.apa.kaf.cli.con.ConsumerConfig] (main) The configuration 'type' was supplied but isn't a known config.
+2019-04-05 15:04:09,975 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] WARN  [org.apa.kaf.cli.con.ConsumerConfig] (main) The configuration 'topic' was supplied but isn't a known config.
+2019-04-05 15:04:09,975 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Publishers created during initialization: [test-topic]
+2019-04-05 15:04:09,975 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Subscribers created during initialization: []
+2019-04-05 15:04:09,975 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Initializing mediators
+2019-04-05 15:04:09,976 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Connecting mediators
+2019-04-05 15:04:09,976 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Attempt to resolve cz.scholz.kafka.quarkus.consumer.Consumer#consume
+2019-04-05 15:04:09,976 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Connecting cz.scholz.kafka.quarkus.consumer.Consumer#consume to `test-topic` (io.reactivex.internal.operators.flowable.FlowableMap@10894c7b8)
+2019-04-05 15:04:09,976 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.quarkus] (main) Quarkus 0.12.0 started in 0.056s. Listening on: http://[::]:8080
+2019-04-05 15:04:09,976 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, smallrye-reactive-streams-operators, vertx]
+2019-04-05 15:04:10,028 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.Metadata] (vert.x-kafka-consumer-thread-0) Cluster ID: KACdqWF2SZK02yrVh7lu8g
+2019-04-05 15:04:13,007 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Discovered group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null)
+2019-04-05 15:04:13,009 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.ConsumerCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Revoking previously assigned partitions []
+2019-04-05 15:04:13,009 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] (Re-)joining group
+2019-04-05 15:04:16,361 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Successfully joined group with generation 1
+2019-04-05 15:04:16,361 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.ConsumerCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Setting newly assigned partitions [kafka-test-apps-0]
+2019-04-05 15:04:16,392 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.Fetcher] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Resetting offset for partition kafka-test-apps-0 to offset 7.
+2019-04-05 15:13:36,802 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] ERROR [org.apa.kaf.cli.con.int.ConsumerCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Offset commit failed on partition kafka-test-apps-0 at offset 7: The request timed out.
+2019-04-05 15:13:36,803 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null) is unavailable or invalid, will attempt rediscovery
+2019-04-05 15:13:36,815 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Discovered group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null)
+2019-04-05 15:13:36,815 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null) is unavailable or invalid, will attempt rediscovery
+2019-04-05 15:13:36,924 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Discovered group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null)
+2019-04-05 15:45:29,113 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Cancel subscriptions
+2019-04-05 15:45:29,114 jakubs-mbp kafka-consumer-1.0.0-SNAPSHOT-runner[29457] INFO  [io.quarkus] (main) Quarkus stopped in 0.007s
+2019-04-05 15:47:32,015 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Deployment done... start processing
+2019-04-05 15:47:32,027 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found source types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 15:47:32,028 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Found sink types: [class io.smallrye.reactive.messaging.kafka.Kafka]
+2019-04-05 15:47:32,028 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Stream manager initializing...
+2019-04-05 15:47:32,029 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.ConsumerConfig] (main) ConsumerConfig values: 
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [my-cluster-kafka-bootstrap-myproject.127.0.0.1.nip.io:443]
+	check.crcs = true
+	client.id = 
+	connections.max.idle.ms = 540000
+	enable.auto.commit = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = kafka-test-apps
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 305000
+	retry.backoff.ms = 100
+	sasl.jaas.config = [hidden]
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.mechanism = 
+	security.protocol = SSL
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = 
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = /Users/scholzj/development/strimzi-kafka-operator/hacking/user.p12
+	ssl.keystore.password = [hidden]
+	ssl.keystore.type = PKCS12
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = /Users/scholzj/development/strimzi-kafka-operator/hacking/truststore.jks
+	ssl.truststore.password = [hidden]
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2019-04-05 15:47:32,049 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] WARN  [org.apa.kaf.cli.con.ConsumerConfig] (main) The configuration 'type' was supplied but isn't a known config.
+2019-04-05 15:47:32,049 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] WARN  [org.apa.kaf.cli.con.ConsumerConfig] (main) The configuration 'topic' was supplied but isn't a known config.
+2019-04-05 15:47:32,049 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Publishers created during initialization: [test-topic]
+2019-04-05 15:47:32,049 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.imp.ConfiguredStreamFactory] (main) Subscribers created during initialization: []
+2019-04-05 15:47:32,050 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Initializing mediators
+2019-04-05 15:47:32,050 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Connecting mediators
+2019-04-05 15:47:32,050 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Attempt to resolve cz.scholz.kafka.quarkus.consumer.Consumer#consume
+2019-04-05 15:47:32,050 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Connecting cz.scholz.kafka.quarkus.consumer.Consumer#consume to `test-topic` (io.reactivex.internal.operators.flowable.FlowableMap@10964e0e8)
+2019-04-05 15:47:32,051 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.quarkus] (main) Quarkus 0.12.0 started in 0.048s. Listening on: http://[::]:8080
+2019-04-05 15:47:32,051 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, smallrye-reactive-streams-operators, vertx]
+2019-04-05 15:47:32,093 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.Metadata] (vert.x-kafka-consumer-thread-0) Cluster ID: KACdqWF2SZK02yrVh7lu8g
+2019-04-05 15:47:32,096 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Discovered group coordinator my-cluster-kafka-1-myproject.127.0.0.1.nip.io:443 (id: 2147483646 rack: null)
+2019-04-05 15:47:32,098 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.int.ConsumerCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Revoking previously assigned partitions []
+2019-04-05 15:47:32,098 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] (Re-)joining group
+2019-04-05 15:47:35,140 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.int.AbstractCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Successfully joined group with generation 3
+2019-04-05 15:47:35,140 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [org.apa.kaf.cli.con.int.ConsumerCoordinator] (vert.x-kafka-consumer-thread-0) [Consumer clientId=consumer-1, groupId=kafka-test-apps] Setting newly assigned partitions [kafka-test-apps-0]
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-1: { "Message": "2019/04/05 15:45:32" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-2: { "Message": "2019/04/05 15:45:33" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-3: { "Message": "2019/04/05 15:45:34" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-4: { "Message": "2019/04/05 15:45:35" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-5: { "Message": "2019/04/05 15:45:36" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-6: { "Message": "2019/04/05 15:45:37" }
+2019-04-05 15:47:35,177 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-7: { "Message": "2019/04/05 15:45:38" }
+2019-04-05 15:47:35,178 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-8: { "Message": "2019/04/05 15:45:39" }
+2019-04-05 15:47:35,178 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-9: { "Message": "2019/04/05 15:45:40" }
+2019-04-05 15:47:35,178 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [cz.sch.kaf.qua.con.Consumer] (vert.x-eventloop-thread-0) Received message (topic: kafka-test-apps, partition: 0) with key key-0: { "Message": "2019/04/05 15:45:41" }
+2019-04-05 15:47:44,731 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.sma.rea.mes.ext.MediatorManager] (main) Cancel subscriptions
+2019-04-05 15:47:44,731 ovpn-205-41 kafka-consumer-1.0.0-SNAPSHOT-runner[29890] INFO  [io.quarkus] (main) Quarkus stopped in 0.002s

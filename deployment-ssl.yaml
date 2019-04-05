@@ -1,0 +1,69 @@
+apiVersion: kafka.strimzi.io/v1alpha1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+      retention.bytes: 1073741824
+      retention.ms: 86400000
+      segment.bytes: 1073741824
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-producer
+  name: kafka-producer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - name: kafka-producer
+        image: scholzj/quarkus-kafka-producer:latest
+        env:
+          - name: CA_CRT
+            valueFrom:
+              secretKeyRef:
+                name: my-cluster-cluster-ca-cert
+                key: ca.crt
+          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_BOOTSTRAP_SERVERS
+            value: my-cluster-kafka-bootstrap:9093
+          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_TOPIC
+            value: kafka-test-apps
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-consumer
+  name: kafka-consumer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - name: kafka-consumer
+        image: scholzj/quarkus-kafka-consumer:latest
+        env:
+          - name: CA_CRT
+            valueFrom:
+              secretKeyRef:
+                name: my-cluster-cluster-ca-cert
+                key: ca.crt
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
+            value: my-cluster-kafka-bootstrap:9093
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
+            value: kafka-test-apps
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
+            value: kafka-test-apps
