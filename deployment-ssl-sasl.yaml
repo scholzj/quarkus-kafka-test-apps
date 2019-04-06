@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
   name: kafka-test-apps-producer-sasl
@@ -23,7 +23,7 @@ spec:
         name: kafka-test-apps
       operation: Describe
 ---
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
   name: kafka-test-apps-consumer-sasl
@@ -48,7 +48,7 @@ spec:
         name: my-kafka-consumer-sasl
       operation: Read
 ---
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaTopic
 metadata:
   name: kafka-test-apps
@@ -75,28 +75,48 @@ spec:
       labels:
         app: kafka-producer-sasl
     spec:
+      initContainers:
+        - name: tls-init
+          image: scholzj/java-tls-init:latest
+          env:
+            - name: CA_CRT
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.crt
+            - name: TRUSTSTORE_FILE
+              value: /tls-certs/truststore.p12
+            - name: TRUSTSTORE_PASSWORD_FILE
+              value: /tls-certs/truststore.password
+          volumeMounts:
+            - mountPath: /tls-certs
+              name: tls-certs
       containers:
-      - name: kafka-producer
-        image: scholzj/quarkus-kafka-producer:latest
-        env:
-          - name: CA_CRT
-            valueFrom:
-              secretKeyRef:
-                name: my-cluster-cluster-ca-cert
-                key: ca.crt
-          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_BOOTSTRAP_SERVERS
-            value: my-cluster-kafka-bootstrap:9093
-          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_TOPIC
-            value: kafka-test-apps
-          - name: USERNAME
-            value: "kafka-test-apps-producer-sasl"
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: kafka-test-apps-producer-sasl
-                key: password
-#          - name: MESSAGE_COUNT
-#            value: "1000000"
+        - name: kafka-producer
+          image: scholzj/quarkus-kafka-producer:latest
+          env:
+            - name: TRUSTSTORE_FILE
+              value: /tls-certs/truststore.p12
+            - name: TRUSTSTORE_PASSWORD_FILE
+              value: /tls-certs/truststore.password
+            - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9093
+            - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_TOPIC
+              value: kafka-test-apps
+            - name: USERNAME
+              value: "kafka-test-apps-producer-sasl"
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-producer-sasl
+                  key: password
+          volumeMounts:
+            - mountPath: /tls-certs
+              name: tls-certs
+      volumes:
+        - name: tls-certs
+          emptyDir:
+            medium: Memory
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -111,25 +131,48 @@ spec:
       labels:
         app: kafka-consumer-sasl
     spec:
+      initContainers:
+        - name: tls-init
+          image: scholzj/java-tls-init:latest
+          env:
+            - name: CA_CRT
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.crt
+            - name: TRUSTSTORE_FILE
+              value: /tls-certs/truststore.p12
+            - name: TRUSTSTORE_PASSWORD_FILE
+              value: /tls-certs/truststore.password
+          volumeMounts:
+            - mountPath: /tls-certs
+              name: tls-certs
       containers:
-      - name: kafka-consumer
-        image: scholzj/quarkus-kafka-consumer:latest
-        env:
-          - name: CA_CRT
-            valueFrom:
-              secretKeyRef:
-                name: my-cluster-cluster-ca-cert
-                key: ca.crt
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
-            value: my-cluster-kafka-bootstrap:9093
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
-            value: kafka-test-apps
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
-            value: kafka-test-apps
-          - name: USERNAME
-            value: "kafka-test-apps-consumer-sasl"
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: kafka-test-apps-consumer-sasl
-                key: password
+        - name: kafka-consumer
+          image: scholzj/quarkus-kafka-consumer:latest
+          env:
+            - name: TRUSTSTORE_FILE
+              value: /tls-certs/truststore.p12
+            - name: TRUSTSTORE_PASSWORD_FILE
+              value: /tls-certs/truststore.password
+            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9093
+            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
+              value: kafka-test-apps
+            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
+              value: kafka-test-apps
+            - name: USERNAME
+              value: "kafka-test-apps-consumer-sasl"
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-consumer-sasl
+                  key: password
+                value: kafka-test-apps
+          volumeMounts:
+            - mountPath: /tls-certs
+              name: tls-certs
+      volumes:
+        - name: tls-certs
+          emptyDir:
+            medium: Memory

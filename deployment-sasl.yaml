@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
   name: kafka-test-apps-producer-sasl
@@ -23,7 +23,7 @@ spec:
         name: kafka-test-apps
       operation: Describe
 ---
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
   name: kafka-test-apps-consumer-sasl
@@ -48,7 +48,7 @@ spec:
         name: my-kafka-consumer-sasl
       operation: Read
 ---
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaTopic
 metadata:
   name: kafka-test-apps
@@ -90,8 +90,6 @@ spec:
               secretKeyRef:
                 name: kafka-test-apps-producer-sasl
                 key: password
-#          - name: MESSAGE_COUNT
-#            value: "1000000"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -110,12 +108,12 @@ spec:
       - name: kafka-consumer
         image: scholzj/quarkus-kafka-consumer:latest
         env:
-        - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
-          value: my-cluster-kafka-bootstrap:9092
-        - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
-          value: kafka-test-apps
-        - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
-          value: kafka-test-apps
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
+            value: my-cluster-kafka-bootstrap:9092
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
+            value: kafka-test-apps
+          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
+            value: kafka-test-apps
           - name: USERNAME
             value: "kafka-test-apps-consumer-sasl"
           - name: PASSWORD
