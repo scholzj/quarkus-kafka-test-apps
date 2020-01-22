@@ -75,59 +75,54 @@ spec:
       labels:
         app: kafka-producer
     spec:
-      initContainers:
-        - name: tls-init
-          image: scholzj/java-tls-init:latest
-          env:
-            - name: CA_CRT
-              valueFrom:
-                secretKeyRef:
-                  name: my-cluster-cluster-ca-cert
-                  key: ca.crt
-            - name: USER_CRT
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-producer
-                  key: user.crt
-            - name: USER_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-producer
-                  key: user.key
-            - name: TRUSTSTORE_FILE
-              value: /tls-certs/truststore.p12
-            - name: TRUSTSTORE_PASSWORD_FILE
-              value: /tls-certs/truststore.password
-            - name: KEYSTORE_FILE
-              value: /tls-certs/keystore.p12
-            - name: KEYSTORE_PASSWORD_FILE
-              value: /tls-certs/keystore.password
-          volumeMounts:
-            - mountPath: /tls-certs
-              name: tls-certs
       containers:
         - name: kafka-producer
           image: scholzj/quarkus-kafka-producer:latest
           env:
-            - name: TRUSTSTORE_FILE
-              value: /tls-certs/truststore.p12
-            - name: TRUSTSTORE_PASSWORD_FILE
-              value: /tls-certs/truststore.password
-            - name: KEYSTORE_FILE
-              value: /tls-certs/keystore.p12
-            - name: KEYSTORE_PASSWORD_FILE
-              value: /tls-certs/keystore.password
-            - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_BOOTSTRAP_SERVERS
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SECURITY_PROTOCOL
+              value: SSL
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_TYPE
+              value: PKCS12
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION
+              value: /etc/truststore/ca.p12
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.password
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_TYPE
+              value: PKCS12
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_LOCATION
+              value: /etc/keystore/user.p12
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-producer
+                  key: user.password
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
-            - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_TOPIC
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_TOPIC
               value: kafka-test-apps
           volumeMounts:
-            - mountPath: /tls-certs
-              name: tls-certs
+            - name: truststore
+              mountPath: "/etc/truststore"
+              readOnly: true
+            - name: keystore
+              mountPath: "/etc/keystore"
+              readOnly: true
       volumes:
-        - name: tls-certs
-          emptyDir:
-            medium: Memory
+        - name: truststore
+          secret:
+            secretName: my-cluster-cluster-ca-cert
+            items:
+              - key: ca.p12
+                path: ca.p12
+        - name: keystore
+          secret:
+            secretName: kafka-test-apps-producer
+            items:
+              - key: user.p12
+                path: user.p12
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -142,58 +137,53 @@ spec:
       labels:
         app: kafka-consumer
     spec:
-      initContainers:
-        - name: tls-init
-          image: scholzj/java-tls-init:latest
-          env:
-            - name: CA_CRT
-              valueFrom:
-                secretKeyRef:
-                  name: my-cluster-cluster-ca-cert
-                  key: ca.crt
-            - name: USER_CRT
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-consumer
-                  key: user.crt
-            - name: USER_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-consumer
-                  key: user.key
-            - name: TRUSTSTORE_FILE
-              value: /tls-certs/truststore.p12
-            - name: TRUSTSTORE_PASSWORD_FILE
-              value: /tls-certs/truststore.password
-            - name: KEYSTORE_FILE
-              value: /tls-certs/keystore.p12
-            - name: KEYSTORE_PASSWORD_FILE
-              value: /tls-certs/keystore.password
-          volumeMounts:
-            - mountPath: /tls-certs
-              name: tls-certs
       containers:
         - name: kafka-consumer
           image: scholzj/quarkus-kafka-consumer:latest
           env:
-            - name: TRUSTSTORE_FILE
-              value: /tls-certs/truststore.p12
-            - name: TRUSTSTORE_PASSWORD_FILE
-              value: /tls-certs/truststore.password
-            - name: KEYSTORE_FILE
-              value: /tls-certs/keystore.p12
-            - name: KEYSTORE_PASSWORD_FILE
-              value: /tls-certs/keystore.password
-            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SECURITY_PROTOCOL
+              value: SSL
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_TYPE
+              value: PKCS12
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_LOCATION
+              value: /etc/truststore/ca.p12
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.password
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_KEYSTORE_TYPE
+              value: PKCS12
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_KEYSTORE_LOCATION
+              value: /etc/keystore/user.p12
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_KEYSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-consumer
+                  key: user.password
+            - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
-            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
+            - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
               value: kafka-test-apps
-            - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
-              value: kafka-test-apps
+            - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
+              value: my-kafka-consumer
           volumeMounts:
-            - mountPath: /tls-certs
-              name: tls-certs
+            - name: truststore
+              mountPath: "/etc/truststore"
+              readOnly: true
+            - name: keystore
+              mountPath: "/etc/keystore"
+              readOnly: true
       volumes:
-        - name: tls-certs
-          emptyDir:
-            medium: Memory
+        - name: truststore
+          secret:
+            secretName: my-cluster-cluster-ca-cert
+            items:
+              - key: ca.p12
+                path: ca.p12
+        - name: keystore
+          secret:
+            secretName: kafka-test-apps-consumer
+            items:
+              - key: user.p12
+                path: user.p12

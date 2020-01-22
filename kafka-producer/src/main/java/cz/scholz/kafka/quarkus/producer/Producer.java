@@ -14,7 +14,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @ApplicationScoped
@@ -29,7 +28,7 @@ public class Producer {
         messages.add(messageCount.incrementAndGet());
     }
 
-    @Outgoing("test-topic")
+    @Outgoing("produced")
     public CompletionStage<KafkaMessage<String, String>> send() {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -50,6 +49,6 @@ public class Producer {
     }
 
     private String getKey(long count) {
-        return "key-" + count % numberOfKeys;
+        return "{ \"key\": " + count % numberOfKeys + " }";
     }
 }

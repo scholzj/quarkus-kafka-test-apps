@@ -12,9 +12,14 @@ import java.util.concurrent.CompletionStage;
 public class Consumer {
     private static final Logger log = LoggerFactory.getLogger(Consumer.class.getName());
 
-    @Incoming("test-topic")
+    @Incoming("consumed")
     public CompletionStage<Void> consume(KafkaMessage<String, String> msg) {
         log.info("Received message (topic: {}, partition: {}) with key {}: {}", msg.getTopic(), msg.getPartition(), msg.getKey(), msg.getPayload());
         return msg.ack();
     }
+
+    /*@Incoming("consumed")
+    public void consumeString(String msg) {
+        log.info("Received string: {}", msg);
+    }*/
 }

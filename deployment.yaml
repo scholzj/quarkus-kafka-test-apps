@@ -29,9 +29,9 @@ spec:
       - name: kafka-producer
         image: scholzj/quarkus-kafka-producer:latest
         env:
-          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_BOOTSTRAP_SERVERS
-            value: my-cluster-kafka-bootstrap:9092
-          - name: SMALLRYE_MESSAGING_SINK_TEST_TOPIC_TOPIC
+          - name: MP_MESSAGING_OUTGOING_PRODUCED_BOOTSTRAP_SERVERS
+            value: my-cluster-kafka-bootstrap:9093
+          - name: MP_MESSAGING_OUTGOING_PRODUCED_TOPIC
             value: kafka-test-apps
 ---
 apiVersion: extensions/v1beta1
@@ -51,9 +51,9 @@ spec:
       - name: kafka-consumer
         image: scholzj/quarkus-kafka-consumer:latest
         env:
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_BOOTSTRAP_SERVERS
-            value: my-cluster-kafka-bootstrap:9092
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_TOPIC
+          - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
+            value: my-cluster-kafka-bootstrap:9093
+          - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
             value: kafka-test-apps
-          - name: SMALLRYE_MESSAGING_SOURCE_TEST_TOPIC_GROUP_ID
-            value: kafka-test-apps
+          - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
+            value: my-kafka-consumer
