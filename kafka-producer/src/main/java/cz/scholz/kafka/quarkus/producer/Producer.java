@@ -1,8 +1,9 @@
 package cz.scholz.kafka.quarkus.producer;
 
 import io.quarkus.scheduler.Scheduled;
-import io.reactivex.Flowable;
-import io.smallrye.reactive.messaging.kafka.KafkaMessage;
+import io.smallrye.reactive.messaging.kafka.KafkaRecord;
+import io.smallrye.reactive.messaging.kafka.OutgoingKafkaRecord;
+
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class Producer {
     }
 
     @Outgoing("produced")
-    public CompletionStage<KafkaMessage<String, String>> send() {
+    public CompletionStage<OutgoingKafkaRecord<String, String>> send() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 Long count = messages.take();
@@ -40,8 +41,8 @@ public class Producer {
         });
     }
 
-    private KafkaMessage<String, String> produce(Long count) {
-        KafkaMessage<String, String> msg = KafkaMessage.of("kafka-test-apps", getKey(count), "{ \"Message\": \"" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "\" }");
+    private OutgoingKafkaRecord<String, String> produce(Long count) {
+        OutgoingKafkaRecord<String, String> msg = KafkaRecord.of("kafka-test-apps", getKey(count), "{ \"Message\": \"" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "\" }");
 
         log.info("Message sent with key {} and value {}", msg.getKey(), msg.getPayload());
 
