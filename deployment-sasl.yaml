@@ -45,7 +45,7 @@ spec:
       operation: Describe
     - resource:
         type: group
-        name: my-kafka-consumer-sasl
+        name: my-kafka-consumer
       operation: Read
 ---
 apiVersion: kafka.strimzi.io/v1beta1
@@ -62,7 +62,7 @@ spec:
       retention.ms: 86400000
       segment.bytes: 1073741824
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -70,6 +70,9 @@ metadata:
   name: kafka-producer-sasl
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer-sasl
   template:
     metadata:
       labels:
@@ -93,7 +96,7 @@ spec:
                 name: kafka-test-apps-producer-sasl
                 key: password
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -101,6 +104,9 @@ metadata:
   name: kafka-consumer-sasl
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer-sasl
   template:
     metadata:
       labels:

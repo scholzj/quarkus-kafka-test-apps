@@ -62,7 +62,7 @@ spec:
       retention.ms: 86400000
       segment.bytes: 1073741824
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -70,6 +70,9 @@ metadata:
   name: kafka-producer
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
   template:
     metadata:
       labels:
@@ -124,7 +127,7 @@ spec:
               - key: user.p12
                 path: user.p12
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -132,6 +135,9 @@ metadata:
   name: kafka-consumer
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
   template:
     metadata:
       labels:
