@@ -11,13 +11,14 @@ export MP_MESSAGING_OUTGOING_PRODUCED_BOOTSTRAP_SERVERS=$(kubectl get kafka my-c
 ### SSL
 
 ```bash
+export MP_MESSAGING_OUTGOING_PRODUCED_BOOTSTRAP_SERVERS=$(kubectl get kafka my-cluster -n my-kafka-project -o=jsonpath='{.status.listeners[?(@.type=="external")].bootstrapServers}{"\n"}')
 export MP_MESSAGING_OUTGOING_PRODUCED_SECURITY_PROTOCOL=SSL
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_TYPE=JKS
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION=/Users/scholzj/development/strimzi-kafka-operator/hacking/truststore.jks
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_PASSWORD=123456
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_TYPE=PKCS12
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_LOCATION=/Users/scholzj/development/strimzi-kafka-operator/hacking/user.p12
-export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_PASSWORD=123456
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_TYPE=PKCS12
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION=/tmp/truststore.p12
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_PASSWORD="verysecret"
+
+kubectl -n my-kafka-project get secret my-cluster-cluster-ca-cert -o jsonpath={.data.'ca\.crt'} | base64 --decode > /tmp/ca.crt
+keytool -keystore $MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION -storepass $MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_PASSWORD -noprompt -alias ca -import -file /tmp/ca.crt -storetype PKCS12
 ```
 
 ### SASL
@@ -25,6 +26,14 @@ export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_PASSWORD=123456
 ```bash
 export MP_MESSAGING_OUTGOING_PRODUCED_SASL_MECHANISM="SCRAM-SHA-512"
 export MP_MESSAGING_OUTGOING_PRODUCED_SASL_JAAS_CONFIG="org.apache.kafka.common.security.scram.ScramLoginModule required username=kafka-test-apps-consumer-sasl password=ZYkyubv3II1e;"
+```
+
+### Client auth
+
+```bash
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_TYPE=PKCS12
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_LOCATION=/Users/scholzj/development/strimzi-kafka-operator/hacking/user.p12
+export MP_MESSAGING_OUTGOING_PRODUCED_SSL_KEYSTORE_PASSWORD="123456"
 ```
 
 ### OAuth
