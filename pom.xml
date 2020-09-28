@@ -18,5 +18,6 @@
     <modules>
         <module>kafka-consumer</module>
         <module>kafka-producer</module>
+        <module>kafka-streams</module>
     </modules>
 </project>

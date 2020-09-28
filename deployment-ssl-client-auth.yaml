@@ -1,4 +1,34 @@
 apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
+---
+
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps-reversed
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
+---
+
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
   name: kafka-test-apps-producer
@@ -23,6 +53,45 @@ spec:
           name: kafka-test-apps
         operation: Describe
 ---
+
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaUser
+metadata:
+  name: kafka-test-apps-streams
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Write
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Create
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Describe
+      - resource:
+          type: topic
+          name: kafka-test-apps
+        operation: Read
+      - resource:
+          type: topic
+          name: kafka-test-apps
+        operation: Describe
+      - resource:
+          type: group
+          name: my-kafka-streams
+        operation: Read
+---
+
 apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
@@ -36,31 +105,17 @@ spec:
     type: simple
     acls:
       - resource:
-          type: topic
-          name: kafka-test-apps
-        operation: Read
-      - resource:
-          type: topic
-          name: kafka-test-apps
-        operation: Describe
-      - resource:
           type: group
           name: my-kafka-consumer
         operation: Read
----
-apiVersion: kafka.strimzi.io/v1beta1
-kind: KafkaTopic
-metadata:
-  name: kafka-test-apps
-  labels:
-    strimzi.io/cluster: my-cluster
-spec:
-  partitions: 3
-  replicas: 3
-  config:
-      retention.bytes: 1073741824
-      retention.ms: 86400000
-      segment.bytes: 1073741824
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Read
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Describe
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -127,6 +182,73 @@ spec:
               - key: user.p12
                 path: user.p12
 ---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-streams
+  name: kafka-streams
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-streams
+  template:
+    metadata:
+      labels:
+        app: kafka-streams
+    spec:
+      containers:
+        - name: kafka-streams
+          image: scholzj/quarkus-kafka-streams:latest
+          env:
+            - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
+              value: SSL
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
+              value: PKCS12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
+              value: /etc/truststore/ca.p12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.password
+            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_TYPE
+              value: PKCS12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_LOCATION
+              value: /etc/keystore/user.p12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-streams
+                  key: user.password
+            - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9093
+            - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID
+              value: my-kafka-streams
+          volumeMounts:
+            - name: truststore
+              mountPath: "/etc/truststore"
+              readOnly: true
+            - name: keystore
+              mountPath: "/etc/keystore"
+              readOnly: true
+      volumes:
+        - name: truststore
+          secret:
+            secretName: my-cluster-cluster-ca-cert
+            items:
+              - key: ca.p12
+                path: ca.p12
+        - name: keystore
+          secret:
+            secretName: kafka-test-apps-streams
+            items:
+              - key: user.p12
+                path: user.p12
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -170,7 +292,7 @@ spec:
             - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
-              value: kafka-test-apps
+              value: kafka-test-apps-reversed
             - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
               value: my-kafka-consumer
           volumeMounts:

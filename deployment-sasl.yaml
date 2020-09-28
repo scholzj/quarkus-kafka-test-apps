@@ -1,7 +1,37 @@
 apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
+---
+
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps-reversed
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
+---
+
+apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
-  name: kafka-test-apps-producer-sasl
+  name: kafka-test-apps-producer
   labels:
     strimzi.io/cluster: my-cluster
 spec:
@@ -23,10 +53,49 @@ spec:
         name: kafka-test-apps
       operation: Describe
 ---
+
 apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaUser
 metadata:
-  name: kafka-test-apps-consumer-sasl
+  name: kafka-test-apps-streams
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Write
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Create
+      - resource:
+          type: topic
+          name: kafka-test-apps-reversed
+        operation: Describe
+      - resource:
+          type: topic
+          name: kafka-test-apps
+        operation: Read
+      - resource:
+          type: topic
+          name: kafka-test-apps
+        operation: Describe
+      - resource:
+          type: group
+          name: my-kafka-streams
+        operation: Read
+---
+
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaUser
+metadata:
+  name: kafka-test-apps-consumer
   labels:
     strimzi.io/cluster: my-cluster
 spec:
@@ -37,46 +106,33 @@ spec:
     acls:
     - resource:
         type: topic
-        name: kafka-test-apps
+        name: kafka-test-apps-reversed
       operation: Read
     - resource:
         type: topic
-        name: kafka-test-apps
+        name: kafka-test-apps-reversed
       operation: Describe
     - resource:
         type: group
         name: my-kafka-consumer
       operation: Read
 ---
-apiVersion: kafka.strimzi.io/v1beta1
-kind: KafkaTopic
-metadata:
-  name: kafka-test-apps
-  labels:
-    strimzi.io/cluster: my-cluster
-spec:
-  partitions: 3
-  replicas: 3
-  config:
-      retention.bytes: 1073741824
-      retention.ms: 86400000
-      segment.bytes: 1073741824
----
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: kafka-producer-sasl
-  name: kafka-producer-sasl
+    app: kafka-producer
+  name: kafka-producer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-producer-sasl
+      app: kafka-producer
   template:
     metadata:
       labels:
-        app: kafka-producer-sasl
+        app: kafka-producer
     spec:
       containers:
       - name: kafka-producer
@@ -89,28 +145,64 @@ spec:
           - name: MP_MESSAGING_OUTGOING_PRODUCED_TOPIC
             value: kafka-test-apps
           - name: USERNAME
-            value: "kafka-test-apps-producer-sasl"
+            value: "kafka-test-apps-producer"
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: kafka-test-apps-producer-sasl
+                name: kafka-test-apps-producer
                 key: password
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: kafka-consumer-sasl
-  name: kafka-consumer-sasl
+    app: kafka-streams
+  name: kafka-streams
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-consumer-sasl
+      app: kafka-streams
   template:
     metadata:
       labels:
-        app: kafka-consumer-sasl
+        app: kafka-streams
+    spec:
+      containers:
+        - name: kafka-streams
+          image: scholzj/quarkus-kafka-streams:latest
+          env:
+            - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
+              value: SASL_PLAINTEXT
+            - name: USERNAME
+              value: "kafka-test-apps-streams"
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-streams
+                  key: password
+            - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID
+              value: my-kafka-streams
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-consumer
+  name: kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
     spec:
       containers:
       - name: kafka-consumer
@@ -121,13 +213,13 @@ spec:
           - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
             value: my-cluster-kafka-bootstrap:9092
           - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
-            value: kafka-test-apps
+            value: kafka-test-apps-reversed
           - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
             value: my-kafka-consumer
           - name: USERNAME
-            value: "kafka-test-apps-consumer-sasl"
+            value: "kafka-test-apps-consumer"
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: kafka-test-apps-consumer-sasl
+                name: kafka-test-apps-consumer
                 key: password

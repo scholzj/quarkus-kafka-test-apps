@@ -1,6 +1,6 @@
 RELEASE_VERSION ?= latest
 
-SUBDIRS=kafka-consumer kafka-producer
+SUBDIRS=kafka-consumer kafka-producer kafka-streams
 DOCKER_TARGETS=docker_build docker_push docker_tag
 
 all: $(SUBDIRS)

@@ -8,10 +8,26 @@ spec:
   partitions: 3
   replicas: 3
   config:
-      retention.bytes: 1073741824
-      retention.ms: 86400000
-      segment.bytes: 1073741824
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
 ---
+
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: kafka-test-apps-reversed
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.bytes: 1073741824
+    retention.ms: 86400000
+    segment.bytes: 1073741824
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,6 +75,55 @@ spec:
               - key: ca.p12
                 path: ca.p12
 ---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-streams
+  name: kafka-streams
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-streams
+  template:
+    metadata:
+      labels:
+        app: kafka-streams
+    spec:
+      containers:
+        - name: kafka-streams
+          image: scholzj/quarkus-kafka-streams:latest
+          env:
+            - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
+              value: SSL
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
+              value: PKCS12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
+              value: /etc/truststore/ca.p12
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-cluster-cluster-ca-cert
+                  key: ca.password
+            - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9093
+            - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID
+              value: my-kafka-streams
+          volumeMounts:
+            - name: truststore
+              mountPath: "/etc/truststore"
+              readOnly: true
+      volumes:
+        - name: truststore
+          secret:
+            secretName: my-cluster-cluster-ca-cert
+            items:
+              - key: ca.p12
+                path: ca.p12
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
