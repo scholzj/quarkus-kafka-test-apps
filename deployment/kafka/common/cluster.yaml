@@ -13,7 +13,7 @@ spec:
       external:
         port: 9094
         type: loadbalancer
-        tls: false
+        tls: true
 #        type: nodeport
 #        tls: false
 #        authentication:
