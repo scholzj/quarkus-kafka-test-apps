@@ -39,8 +39,23 @@ export MP_MESSAGING_INCOMING_CONSUMED_SSL_KEYSTORE_PASSWORD="verysecret"
 ### OAuth
 
 ```bash
+export MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS=XXX
+export MP_MESSAGING_INCOMING_CONSUMED_SECURITY_PROTOCOL=SASL_SSL
+export MP_MESSAGING_INCOMING_CONSUMED_SASL_JAAS_CONFIG="org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;"
+export MP_MESSAGING_INCOMING_CONSUMED_SASL_LOGIN_CALLBACK_HANDLER_CLASS=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
+export MP_MESSAGING_INCOMING_CONSUMED_SASL_CLIENT_CALLBACK_HANDLER_CLASS="io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler"
+export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_TYPE=JKS
+export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_LOCATION="/tmp/truststore.jks"
+export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_PASSWORD="password"
+
 export MP_MESSAGING_INCOMING_CONSUMED_SASL_MECHANISM="OAUTHBEARER"
-export MP_MESSAGING_INCOMING_CONSUMED_SASL_JAAS_CONFIG="org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required unsecuredLoginStringClaim_sub=alice;"
+export OAUTH_TOKEN_ENDPOINT_URI="XXX"
+export OAUTH_CLIENT_ID="team-a-consumer"
+export OAUTH_CLIENT_SECRET="XXX"
+export OAUTH_USERNAME_CLAIM="preferred_username"
+export OAUTH_SSL_TRUSTSTORE_PASSWORD="password"
+export OAUTH_SSL_TRUSTSTORE_LOCATION="/tmp/truststore.p12"
+export OAUTH_SSL_TRUSTSTORE_TYPE=JKS
 ```
 
 ## Run
