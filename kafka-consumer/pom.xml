@@ -42,6 +42,11 @@
             <artifactId>quarkus-vertx</artifactId>
         </dependency>
         <dependency>
+          <groupId>io.strimzi</groupId>
+          <artifactId>kafka-oauth-client</artifactId>
+          <version>0.6.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -119,6 +124,9 @@
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <quarkus.native.additional-build-args>-H:ReflectionConfigurationFiles=reflection-config.json</quarkus.native.additional-build-args>
+            </properties>
         </profile>
     </profiles>
 </project>
