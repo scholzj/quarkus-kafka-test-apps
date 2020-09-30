@@ -43,7 +43,6 @@ export MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS=XXX
 export MP_MESSAGING_INCOMING_CONSUMED_SECURITY_PROTOCOL=SASL_SSL
 export MP_MESSAGING_INCOMING_CONSUMED_SASL_JAAS_CONFIG="org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;"
 export MP_MESSAGING_INCOMING_CONSUMED_SASL_LOGIN_CALLBACK_HANDLER_CLASS=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
-export MP_MESSAGING_INCOMING_CONSUMED_SASL_CLIENT_CALLBACK_HANDLER_CLASS="io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler"
 export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_TYPE=JKS
 export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_LOCATION="/tmp/truststore.jks"
 export MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_PASSWORD="password"
@@ -63,7 +62,7 @@ export OAUTH_SSL_TRUSTSTORE_TYPE=JKS
 ### Dev mode
 
 ```bash
-mvn quarkus:dev
+$ mvn quarkus:dev
 ```
 
 ### Local
