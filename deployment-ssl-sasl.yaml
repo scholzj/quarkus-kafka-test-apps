@@ -148,29 +148,16 @@ spec:
                   name: kafka-test-apps-producer
                   key: sasl.jaas.config
             - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_TYPE
-              value: PKCS12
-            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION
-              value: /etc/truststore/ca.p12
-            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_PASSWORD
+              value: PEM
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_CERTIFICATES
               valueFrom:
                 secretKeyRef:
                   name: my-cluster-cluster-ca-cert
-                  key: ca.password
+                  key: ca.crt
             - name: MP_MESSAGING_OUTGOING_PRODUCED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: MP_MESSAGING_OUTGOING_PRODUCED_TOPIC
               value: kafka-test-apps
-          volumeMounts:
-            - name: truststore
-              mountPath: "/etc/truststore"
-              readOnly: true
-      volumes:
-        - name: truststore
-          secret:
-            secretName: my-cluster-cluster-ca-cert
-            items:
-              - key: ca.p12
-                path: ca.p12
 ---
 
 apiVersion: apps/v1
@@ -202,6 +189,13 @@ spec:
                 secretKeyRef:
                   name: kafka-test-apps-streams
                   key: sasl.jaas.config
+#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
+#              value: PEM
+#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_CERTIFICATES
+#              valueFrom:
+#                secretKeyRef:
+#                  name: my-cluster-cluster-ca-cert
+#                  key: ca.crt
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
               value: PKCS12
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
@@ -258,28 +252,15 @@ spec:
                   name: kafka-test-apps-consumer
                   key: sasl.jaas.config
             - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_TYPE
-              value: PKCS12
-            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_LOCATION
-              value: /etc/truststore/ca.p12
-            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_PASSWORD
+              value: PEM
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_CERTIFICATES
               valueFrom:
                 secretKeyRef:
                   name: my-cluster-cluster-ca-cert
-                  key: ca.password
+                  key: ca.crt
             - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
               value: kafka-test-apps
             - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
               value: my-kafka-consumer
-          volumeMounts:
-            - name: truststore
-              mountPath: "/etc/truststore"
-              readOnly: true
-      volumes:
-        - name: truststore
-          secret:
-            secretName: my-cluster-cluster-ca-cert
-            items:
-              - key: ca.p12
-                path: ca.p12
