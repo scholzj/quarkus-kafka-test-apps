@@ -42,9 +42,9 @@
             <artifactId>quarkus-vertx</artifactId>
         </dependency>
         <dependency>
-          <groupId>io.strimzi</groupId>
-          <artifactId>kafka-oauth-client</artifactId>
-          <version>0.6.1</version>
+            <groupId>io.strimzi</groupId>
+            <artifactId>kafka-oauth-client</artifactId>
+            <version>${strimzi-oauth.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

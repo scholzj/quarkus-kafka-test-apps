@@ -13,6 +13,7 @@
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
         <slf4j.version>1.7.21</slf4j.version>
         <quarkus.version>1.7.3.Final</quarkus.version>
+        <strimzi-oauth.version>0.6.1</strimzi-oauth.version>
     </properties>
 
     <modules>
