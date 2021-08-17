@@ -1,26 +1,11 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal
+####
+# Based on the Quarkus distroless image
+###
+FROM quay.io/quarkus/quarkus-distroless-image:1.0
 
-WORKDIR /work/
-
-COPY ./scripts/ /work
-COPY target/*-runner /work/application
-
-RUN chmod 775 /work
+COPY target/*-runner /application
 
 EXPOSE 8080
-CMD ["./run.sh", "./application"]
-#FROM registry.fedoraproject.org/fedora-minimal
-#
-#RUN microdnf -y install libxcrypt-compat && microdnf clean all
-#
-#WORKDIR /work/
-#
-#COPY ./scripts/ /work
-##COPY --from=jrebuilder /tmp/tls-libs/ /work/
-#COPY target/*-runner /work/application
-#
-#RUN chmod 775 /work
-#
-#EXPOSE 8080
-#
-#CMD ["./run.sh", "./application -Djava.library.path=/work/lib -Djavax.net.ssl.trustStore=/work/cacerts -Dquarkus.http.host=0.0.0.0"]
+USER nonroot
+
+CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]

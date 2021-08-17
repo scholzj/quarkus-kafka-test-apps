@@ -140,6 +140,13 @@ spec:
           env:
             - name: MP_MESSAGING_OUTGOING_PRODUCED_SECURITY_PROTOCOL
               value: SASL_SSL
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SASL_MECHANISM
+              value: SCRAM-SHA-512
+            - name: MP_MESSAGING_OUTGOING_PRODUCED_SASL_JAAS_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-producer
+                  key: sasl.jaas.config
             - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_TYPE
               value: PKCS12
             - name: MP_MESSAGING_OUTGOING_PRODUCED_SSL_TRUSTSTORE_LOCATION
@@ -153,13 +160,6 @@ spec:
               value: my-cluster-kafka-bootstrap:9093
             - name: MP_MESSAGING_OUTGOING_PRODUCED_TOPIC
               value: kafka-test-apps
-            - name: USERNAME
-              value: "kafka-test-apps-producer"
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-producer
-                  key: password
           volumeMounts:
             - name: truststore
               mountPath: "/etc/truststore"
@@ -195,6 +195,13 @@ spec:
           env:
             - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
               value: SASL_SSL
+            - name: QUARKUS_KAFKA_STREAMS_SASL_MECHANISM
+              value: SCRAM-SHA-512
+            - name: QUARKUS_KAFKA_STREAMS_SASL_JAAS_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-streams
+                  key: sasl.jaas.config
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
               value: PKCS12
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
@@ -204,13 +211,6 @@ spec:
                 secretKeyRef:
                   name: my-cluster-cluster-ca-cert
                   key: ca.password
-            - name: USERNAME
-              value: "kafka-test-apps-streams"
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-streams
-                  key: password
             - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID
@@ -250,6 +250,13 @@ spec:
           env:
             - name: MP_MESSAGING_INCOMING_CONSUMED_SECURITY_PROTOCOL
               value: SASL_SSL
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SASL_MECHANISM
+              value: SCRAM-SHA-512
+            - name: MP_MESSAGING_INCOMING_CONSUMED_SASL_JAAS_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-consumer
+                  key: sasl.jaas.config
             - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_TYPE
               value: PKCS12
             - name: MP_MESSAGING_INCOMING_CONSUMED_SSL_TRUSTSTORE_LOCATION
@@ -265,13 +272,6 @@ spec:
               value: kafka-test-apps
             - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
               value: my-kafka-consumer
-            - name: USERNAME
-              value: "kafka-test-apps-consumer"
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-test-apps-consumer
-                  key: password
           volumeMounts:
             - name: truststore
               mountPath: "/etc/truststore"
