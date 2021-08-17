@@ -17,7 +17,7 @@ NATIVE_DOCKER_BUILD = ""
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
-	NATIVE_DOCKER_BUILD = "-Dnative-image.docker-build=true"
+	NATIVE_DOCKER_BUILD = "-Dquarkus.native.container-build=true"
 endif
 
 all: docker_build docker_push
