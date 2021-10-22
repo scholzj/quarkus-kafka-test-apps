@@ -186,43 +186,25 @@ spec:
           env:
             - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
               value: SSL
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
-#              value: PEM
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_CERTIFICATES
-#              valueFrom:
-#                secretKeyRef:
-#                  name: my-cluster-cluster-ca-cert
-#                  key: ca.crt
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
-              value: PKCS12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
-              value: /etc/truststore/ca.p12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_PASSWORD
+              value: PEM
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_CERTIFICATES
               valueFrom:
                 secretKeyRef:
                   name: my-cluster-cluster-ca-cert
-                  key: ca.password
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_TYPE
-#              value: PEM
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_CERTIFICATE_CHAIN
-#              valueFrom:
-#                secretKeyRef:
-#                  name: kafka-test-apps-streams
-#                  key: user.crt
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_KEY
-#              valueFrom:
-#                secretKeyRef:
-#                  name: kafka-test-apps-streams
-#                  key: user.key
+                  key: ca.crt
             - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_TYPE
-              value: PKCS12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_LOCATION
-              value: /etc/keystore/user.p12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_PASSWORD
+              value: PEM
+            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_CERTIFICATE_CHAIN
               valueFrom:
                 secretKeyRef:
                   name: kafka-test-apps-streams
-                  key: user.password
+                  key: user.crt
+            - name: QUARKUS_KAFKA_STREAMS_SSL_KEYSTORE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-test-apps-streams
+                  key: user.key
             - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID

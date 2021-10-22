@@ -85,22 +85,13 @@ spec:
           env:
             - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
               value: SSL
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
-#              value: PEM
-#            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_CERTIFICATES
-#              valueFrom:
-#                secretKeyRef:
-#                  name: my-cluster-cluster-ca-cert
-#                  key: ca.crt
             - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_TYPE
-              value: PKCS12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_LOCATION
-              value: /etc/truststore/ca.p12
-            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_PASSWORD
+              value: PEM
+            - name: QUARKUS_KAFKA_STREAMS_SSL_TRUSTSTORE_CERTIFICATES
               valueFrom:
                 secretKeyRef:
                   name: my-cluster-cluster-ca-cert
-                  key: ca.password
+                  key: ca.crt
             - name: QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: QUARKUS_KAFKA_STREAMS_APPLICATION_ID
@@ -150,6 +141,6 @@ spec:
             - name: MP_MESSAGING_INCOMING_CONSUMED_BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9093
             - name: MP_MESSAGING_INCOMING_CONSUMED_TOPIC
-              value: kafka-test-apps
+              value: kafka-test-apps-reversed
             - name: MP_MESSAGING_INCOMING_CONSUMED_GROUP_ID
               value: my-kafka-consumer

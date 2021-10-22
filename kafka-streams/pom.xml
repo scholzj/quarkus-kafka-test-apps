@@ -96,6 +96,9 @@
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <quarkus.native.additional-build-args>-H:ReflectionConfigurationFiles=reflection-config.json</quarkus.native.additional-build-args>
+            </properties>
         </profile>
     </profiles>
 </project>
