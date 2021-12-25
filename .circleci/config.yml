@@ -47,5 +47,7 @@ jobs:
 workflows:
   build-workflow:
     jobs:
-      - build:
+      - build-amd64:
             context: ghcr.io
+      - build-arm64:
+          context: ghcr.io
