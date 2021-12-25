@@ -17,7 +17,7 @@ NATIVE_DOCKER_BUILD = ""
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
-	NATIVE_DOCKER_BUILD = "-Dquarkus.native.container-build=true"
+	NATIVE_DOCKER_BUILD = -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=ghcr.io/scholzj/quarkus-multiarch-native-builder:21 -Dquarkus.native.container-runtime-options=--platform=linux/arm64
 endif
 
 all: docker_build docker_push
