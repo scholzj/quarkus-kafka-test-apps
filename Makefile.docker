@@ -13,12 +13,12 @@ DOCKER_ORG         ?= $(USER)
 DOCKER_TAG         ?= latest
 DOCKER_VERSION_ARG ?= 1.0.0-SNAPSHOT
 
-NATIVE_DOCKER_BUILD = ""
+NATIVE_DOCKER_BUILD = -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=ghcr.io/scholzj/quarkus-multiarch-native-builder:21
 
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-	NATIVE_DOCKER_BUILD = -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=ghcr.io/scholzj/quarkus-multiarch-native-builder:21 -Dquarkus.native.container-runtime-options=--platform=linux/arm64
-endif
+#UNAME_S := $(shell uname -s)
+#ifeq ($(UNAME_S),Darwin)
+#	NATIVE_DOCKER_BUILD = -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=ghcr.io/scholzj/quarkus-multiarch-native-builder:21
+#endif
 
 all: docker_build docker_push
 
