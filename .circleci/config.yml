@@ -47,6 +47,8 @@ jobs:
           command: make docker_push
   build-manifests:
     resource_class: medium
+    docker:
+      - image: docker:stable-git
     environment:
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
