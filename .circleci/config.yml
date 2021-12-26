@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   build-amd64:
     resource_class: medium
@@ -44,7 +45,7 @@ jobs:
       - deploy:
           name: Push to Docker hub
           command: make docker_push
-  manifest:
+  build-manifests:
     resource_class: medium
     environment:
       DOCKER_CLI_EXPERIMENTAL: enabled
@@ -84,7 +85,7 @@ workflows:
           context: ghcr.io
       - build-arm64:
           context: ghcr.io
-      - manifest:
+      - build-manifests:
           context: ghcr.io
           requires:
             - build-amd64
