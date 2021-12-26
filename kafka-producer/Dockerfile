@@ -1,7 +1,7 @@
 ####
 # Based on the Quarkus distroless image
 ###
-FROM quay.io/quarkus/quarkus-distroless-image:1.0
+FROM ghcr.io/scholzj/quarkus-multiarch-distroless-base:latest
 
 LABEL org.opencontainers.image.source="https://github.com/scholzj/quarkus-kafka-test-apps/kafka-producer/" \
       summary="Sample Kafka producer written in Quarkus" \

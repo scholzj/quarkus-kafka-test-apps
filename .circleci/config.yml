@@ -44,10 +44,48 @@ jobs:
       - deploy:
           name: Push to Docker hub
           command: make docker_push
+  manifest:
+    resource_class: medium
+    environment:
+      DOCKER_CLI_EXPERIMENTAL: enabled
+      DOCKER_BUILDKIT: 1
+    steps:
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Pull images
+          command: |
+              docker pull ghcr.io/scholzj/quarkus-kafka-consumer:latest-amd64
+              docker pull ghcr.io/scholzj/quarkus-kafka-producer:latest-amd64
+              docker pull ghcr.io/scholzj/quarkus-kafka-streams:latest-amd64
+              docker pull ghcr.io/scholzj/quarkus-kafka-consumer:latest-arm64
+              docker pull ghcr.io/scholzj/quarkus-kafka-producer:latest-arm64
+              docker pull ghcr.io/scholzj/quarkus-kafka-streams:latest-arm64
+      - run:
+          name: Create manifest
+          command: |
+              docker manifest create ghcr.io/scholzj/quarkus-kafka-consumer:latest ghcr.io/scholzj/quarkus-kafka-consumer:latest-amd64 ghcr.io/scholzj/quarkus-kafka-consumer:latest-arm64
+              docker manifest create ghcr.io/scholzj/quarkus-kafka-producer:latest ghcr.io/scholzj/quarkus-kafka-producer:latest-amd64 ghcr.io/scholzj/quarkus-kafka-producer:latest-arm64
+              docker manifest create ghcr.io/scholzj/quarkus-kafka-streams:latest ghcr.io/scholzj/quarkus-kafka-streams:latest-amd64 ghcr.io/scholzj/quarkus-kafka-streams:latest-arm64
+      - deploy:
+          name: Login to Docker Hub
+          command: docker login ghcr.io -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - deploy:
+          name: Push manifest
+          command: |
+            docker manifest push ghcr.io/scholzj/quarkus-kafka-consumer:latest
+            docker manifest push ghcr.io/scholzj/quarkus-kafka-producer:latest
+            docker manifest push ghcr.io/scholzj/quarkus-kafka-streams:latest
+
 workflows:
   build-workflow:
     jobs:
       - build-amd64:
-            context: ghcr.io
+          context: ghcr.io
       - build-arm64:
           context: ghcr.io
+      - manifest:
+          context: ghcr.io
+          requires:
+            - build-amd64
+            - build-arm64
