@@ -12,4 +12,4 @@ COPY target/*-runner /application
 EXPOSE 8080
 USER nonroot
 
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+CMD ["./application"]

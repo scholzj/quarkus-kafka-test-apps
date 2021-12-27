@@ -135,7 +135,7 @@ spec:
     spec:
       containers:
         - name: kafka-producer
-          image: quay.io/scholzj/quarkus-kafka-producer:latest
+          image: ghcr.io/scholzj/quarkus-kafka-producer:latest
           env:
             - name: MP_MESSAGING_OUTGOING_PRODUCED_SECURITY_PROTOCOL
               value: SSL
@@ -182,7 +182,7 @@ spec:
     spec:
       containers:
         - name: kafka-streams
-          image: quay.io/scholzj/quarkus-kafka-streams:latest
+          image: ghcr.io/scholzj/quarkus-kafka-streams:latest
           env:
             - name: QUARKUS_KAFKA_STREAMS_SECURITY_PROTOCOL
               value: SSL
@@ -249,7 +249,7 @@ spec:
     spec:
       containers:
         - name: kafka-consumer
-          image: quay.io/scholzj/quarkus-kafka-consumer:latest
+          image: ghcr.io/scholzj/quarkus-kafka-consumer:latest
           env:
             - name: MP_MESSAGING_INCOMING_CONSUMED_SECURITY_PROTOCOL
               value: SSL

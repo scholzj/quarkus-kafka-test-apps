@@ -1,6 +1,6 @@
 package cz.scholz.kafka.quarkus.producer;
 
-import io.quarkus.scheduler.Scheduled;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.reactive.messaging.kafka.KafkaRecord;
 import io.smallrye.reactive.messaging.kafka.OutgoingKafkaRecord;
 
@@ -10,11 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 @ApplicationScoped
@@ -22,23 +19,14 @@ public class Producer {
     private static final Logger log = LoggerFactory.getLogger(Producer.class.getName());
     private final int numberOfKeys = 10;
     private AtomicLong messageCount = new AtomicLong(0);
-    private BlockingQueue<Long> messages = new LinkedBlockingQueue<>();
-
-    @Scheduled(every="1s")
-    void schedule() {
-        messages.add(messageCount.incrementAndGet());
-    }
 
     @Outgoing("produced")
-    public CompletionStage<OutgoingKafkaRecord<String, String>> send() {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                Long count = messages.take();
-                return produce(count);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    public Multi<OutgoingKafkaRecord<String, String>> generate() {
+        return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
+                .map(x -> {
+                    long count = messageCount.incrementAndGet();
+                    return produce(count);
+                });
     }
 
     private OutgoingKafkaRecord<String, String> produce(Long count) {
